@@ -26,6 +26,8 @@ contains the answer.
 <!-- e.g. "One of my questions is about a topic only two documents mention, so
      I expect that one to be hard." -->
 
+I chose 4 out 5 because I expect the system to find answers to most student resource questions, but some information may not be as clearly stated in the documents.
+
 ---
 
 ## 2. Every answer names a source
@@ -35,6 +37,8 @@ Every answer the system produces names at least one source document.
 **Why this target:**
 <!-- Why all five and not four? What about your setup makes that achievable —
      or what would have to go wrong for it not to be? -->
+
+I chose all five becausae students should be able to see which campus document the answer came from and verify the information themselves.
 
 ---
 
@@ -48,6 +52,8 @@ in at least 4 of 5 tries.
      `questions.py`, and `run_eval.py` puts them through the gate and writes
      what happened into your run log. Swap them for your own if you'd rather —
      just keep five of them, or the "4 of 5" above has nothing to be 4 of. -->
+
+I chose 4 out 5 because the system should reject most questions that aren't covered by the campus documents rather than provide unrelated or inaccurate information.
 
 **Why this target:**
 <!-- What did your distances look like when you set the cutoff in Milestone 4?
@@ -68,10 +74,12 @@ in at least 4 of 5 tries.
           sentence cut in half at either end."
        - "No chunk is shorter than 200 characters, since anything below that
           in my corpus turned out to be a heading with no content under it." -->
-
-
+At least 4 out of 5 sampled chunks should contain enough information to 
+understand the main point without needing another chunk.
 
 **Why this target:**
+
+I chose 4 out of 5 because most chunks should provide enough context for a student to understand it.
 
 
 
@@ -87,10 +95,13 @@ in at least 4 of 5 tries.
      present — anything, as long as it names a number or an observable
      outcome. -->
 
+Each answer should be no more than 3 sentences, excluding the source information. 
 
 
 **Why this target:**
 
+I chose 3 sentences because students looking for campus information should be able to get a clear and direct answer without having to read
+unnecessary information. 
 
 
 ---
