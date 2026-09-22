@@ -26,7 +26,7 @@ QUESTIONS = [
     {"question": "How much does a parking permit cost per semester?", "expects": "$75"},
     {"question": "Where are the designated drop-off areas for food deliveries?", "expects": "In front of the main campus"},
     {"question": "What public transportation is available near campus", "expects": "Bus routes 101, 201, and 203"},
-    {"question": "What time does the library open Modnay through Friday?", "expects": "7:00 AM through 11:30 PM"},
+    {"question": "What time is the library open until during term?", "expects": "2 AM"},
     {"question": "How far are nearby restaurants from campus by car?", "expects": "30 minutes"},
 ]
 

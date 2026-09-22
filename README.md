@@ -113,13 +113,15 @@ Laundry costs $1.75 wash, $1.75 dry, app-based. On noise: moderate; the building
      visible. Milestone 4. -->
 
 **Question:**
+What time is the library open until during term?
 
 **Answer:**
+The library is open until 2am during term.
 
 ```
 ```
 
-**My relevance cutoff:**
+**My relevance cutoff:** 0.70
 
 <!-- The number you set in config.py, and how you got there.
 
@@ -129,6 +131,8 @@ Laundry costs $1.75 wash, $1.75 dry, app-based. On noise: moderate; the building
      here — the table below wants all ten rows.
 
      Milestone 4. -->
+
+     I chose a cutoff of 0.70 because the five questions covered by the corpus had best distances between 0.4198 and 0.6538. The five out-of-scope questions had best distances between 0.8246 and 0.9340. Since there was a gap between 0.6538 and 0.8246, I chose 0.70 as the cutoff.
 
 | Question | In corpus? | Best distance |
 |---|---|---|
