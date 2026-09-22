@@ -27,10 +27,15 @@
 
      Milestone 5. -->
 
+     I chose the campus_life corpus for this project. The system helps answer questions about campus life, such as dining,
+     transportation, housing, library information, and other student resources. It retrieves information from the campus
+     documents that is related to the user's question and provides an answer based on those documents. If the question is not
+     covered by the documents, the system will let the user know that there isn't enough information to answer it.
+
 ## Chunking Strategy
 
-**Chunk size:**
-**Overlap:**
+**Chunk size:** One document/post per chunk
+**Overlap:** 0
 
 <!-- What about YOUR documents made you pick these numbers? Short posts and
      long sectioned guides don't want the same chunking, and "800 seemed
@@ -41,6 +46,8 @@
      more than pretending you got it right first time.
 
      Milestone 3. -->
+
+     I chose one document per chunk because the campus_life documents are short and generally focus on one topic. Keeping each document together preserves the context instead of splitting related information across multiple chunks. Since each document is kept as one chunk, overlap is not needed.
 
 ## Sample Chunks
 
@@ -60,7 +67,7 @@ On the add/drop deadline
 You can add a course through the end of the second week. Dropping is a longer window — through the end of week six — but a drop after week two shows as a W on your transcript. Nothing anywhere on the registrar's site says this plainly, and students find out from each other.
 ```
 
-**Chunk 2** — source: 'course_bio1_160.txt#0' `` — produced by: chunker.py::split_documents ``
+**Chunk 2** — source: 'course_biol_160.txt#0' `` — produced by: chunker.py::split_documents ``
 
 ```
 BIOL 160 Cell Biology
@@ -117,6 +124,7 @@ What time is the library open until during term?
 
 **Answer:**
 The library is open until 2am during term.
+Sources: `study_library_hours.txt`, `housing_calder_annexe_noise.txt`, and `housing_morrow_house_noise.txt`.
 
 ```
 ```
@@ -134,9 +142,20 @@ The library is open until 2am during term.
 
      I chose a cutoff of 0.70 because the five questions covered by the corpus had best distances between 0.4198 and 0.6538. The five out-of-scope questions had best distances between 0.8246 and 0.9340. Since there was a gap between 0.6538 and 0.8246, I chose 0.70 as the cutoff.
 
+
 | Question | In corpus? | Best distance |
 |---|---|---|
-|  |  |  |
+
+| How much does a parking permit cost per semester? | Yes | 0.5675 |
+| Where are the designated drop-off areas for food deliveries? | Yes | 0.6538 |
+| What public transportation is available near campus? | Yes | 0.5626 |
+| What time is the library open until during term? | Yes | 0.4198 |
+| How far are nearby restaurants from campus by car? | Yes | 0.5043 |
+| What is the capital of Mongolia? | No | 0.8246 |
+| How do I change the oil in a diesel engine? | No | 0.9340 |
+| Who won the 1994 World Cup? | No | 0.8859 |
+| What is the recommended dosage of ibuprofen for a headache? | No | 0.8442 |
+| How do I write a for loop in Rust? | No | 0.8960 |
 
 ## How I Used AI
 
@@ -149,9 +168,9 @@ The library is open until 2am during term.
 
      Milestone 5. -->
 
-**1.**
+**1.** I used AI to help troubleshoot my project setup when installing the requirements failed. AI helped me identify which dependencies were missing and gave me commands to install them individually. I ran the tests afterward to verify the setup instead of assuming the installation worked.
 
-**2.**
+**2.** I used AI to help review my retrieval results and choose a relevance cutoff. AI initially used a test question that was not one of my five questions, so I corrected it and used the results from my actual five in-corpus and five out-of-scope questions. Based on those results, I chose 0.70 because it fell between the two groups of distances.
 
 <!-- ── Stretch features ─────────────────────────────────────────────────────
      Doing one? Say so here BEFORE you start. A feature this README never
