@@ -199,15 +199,61 @@ Sources: `study_library_hours.txt`, `housing_calder_annexe_noise.txt`, and `hous
 
 | Criterion | Target | Run 1 | Run 2 | Run 3 | Verdict |
 |---|---|---|---|---|---|
-| 1. Retrieved chunk contains the answer | 4 of 5 |  |  |  |  |
-| 2. Every answer names a source | 5 of 5 |  |  |  |  |
-| 3. Gate stops out-of-corpus questions | 4 of 5 |  |  |  |  |
-| 4. | | | | | |
-| 5. | | | | | |
+| 1. Retrieved chunk contains the answer | 4 of 5 | 1/5 | 1/5 | 1/5 | MISSED |
+| 2. Every answer names a source | 5 of 5 | 3/5 | 3/5 | 3/5 | MISSED |
+| 3. Gate stops out-of-corpus questions | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 4. At least 4 out of 5 sampled chunks contain enough information to understand the main point without needing another chunk | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 5. Each answer is no more than 3 sentences, excluding source information | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
 
 <!-- Underneath, paste the REAL output for each criterion from one of your
      runs — the actual text your system produced, not a description of it.
      Name the file and function that produced it. -->
+
+**Criterion 1 — Retrieved chunk contains the answer**  
+Produced by: `run_eval.py::main`, retrieval from `store.py::search`
+
+For the library question, the retrieved sources included `study_library_hours.txt`, which contained the expected answer:
+
+> The library is open until 2am during term.
+
+Only 1 of the 5 questions retrieved a chunk containing the expected answer.
+
+**Criterion 2 — Every answer names a source**  
+Produced by: `run_eval.py::main`
+
+Example with a source:
+
+> The library is open until 2am during term.  
+> Source: `study_library_hours.txt` (also mentioned in `housing_calder_annexe_noise.txt` and `housing_morrow_house_noise.txt`).
+
+Example without a source:
+
+> I do not have enough information to answer your question.
+
+3 of 5 answers named a source in each run.
+
+**Criterion 3 — Gate stops out-of-corpus questions**  
+Produced by: `run_eval.py::check_out_of_scope`
+
+> Refused 5 of 5.
+
+All five out-of-scope questions were refused.
+
+**Criterion 4 — Sampled chunks contain enough information to understand the main point**  
+Produced by: `chunker.py::split_documents`
+
+> Innisfree Hall — what it's actually like  
+> Transferred in last year, so take this with a grain of salt. Built 1991, renovated 2022. Rooms are doubles arranged as pairs sharing one bathroom between two rooms.
+
+The five sampled chunks were understandable without needing another chunk.
+
+**Criterion 5 — Answers are no more than 3 sentences**  
+Produced by: `run_eval.py::main`
+
+> The library is open until 2am during term.  
+> Source: `study_library_hours.txt` (also mentioned in `housing_calder_annexe_noise.txt` and `housing_morrow_house_noise.txt`).
+
+All five answers stayed within the 3-sentence limit in all three runs.
 
 ## Verdicts
 
