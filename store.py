@@ -18,8 +18,11 @@ rest of the project if they were wrong:
 """
 
 import os
+import re
 import shutil
 from dataclasses import dataclass
+
+from rank_bm25 import BM25Okapi
 
 # Must be set BEFORE chromadb is imported. Without it, some Chroma versions
 # print "Failed to send telemetry event ..." on every single call — which looks
@@ -126,6 +129,20 @@ def embed(texts: list[str]) -> list[list[float]]:
     # .tolist(); _OnnxEmbedder has already done that conversion itself.
     return vectors.tolist() if hasattr(vectors, "tolist") else vectors
 
+# def _keyword_score(question: str, text: str) -> float:
+#     """Return the fraction of question words that also appear in the chunk."""
+#     question_words = set(re.findall(r"\b\w+\b", question.lower()))
+#     text_words = set(re.findall(r"\b\w+\b", text.lower()))
+
+#     if not question_words:
+#         return 0.0
+
+#     matches = question_words & text_words
+#     return len(matches) / len(question_words)
+
+def _tokenize(text: str) -> list[str]:
+    """Turn text into lowercase words for BM25 keyword search."""
+    return re.findall(r"\b\w+\b", text.lower())
 
 def _client():
     return chromadb.PersistentClient(
@@ -198,10 +215,20 @@ def search(
         raise RuntimeError(
             f"No index called '{name}'. Run `python app.py index` first."
         ) from exc
+        
+    all_docs = collection.get(include=["documents", "metadatas"])
+    documents = all_docs["documents"]
+    metadatas = all_docs["metadatas"]
 
+    tokenized_docs = [_tokenize(doc) for doc in documents]
+    bm25 = BM25Okapi(tokenized_docs)
+    bm25_scores = bm25.get_scores(_tokenize(question))
+
+    candidate_k = min(top_k * 4, collection.count())
     raw = collection.query(
         query_embeddings=embed([question]),
-        n_results=min(top_k, collection.count()),
+        # n_results=min(top_k, collection.count()),
+        n_results=candidate_k,
     )
 
     results: list[Result] = []
@@ -217,7 +244,49 @@ def search(
                 produced_by=str(meta.get("produced_by", "unknown")),
             )
         )
-    return results
+    # return results
+    # results.sort(
+    #     key=lambda r: (0.7 * r.distance) - (0.3 * _keyword_score(question, r.text))
+    # )
+    # return results[:top_k]
+    
+    # bm25_by_text = {
+    # text: float(score)
+    # for text, score in zip(documents, bm25_scores)
+    # }
+
+    # max_bm25 = max(bm25_scores) if len(bm25_scores) > 0 else 0
+
+    # def hybrid_score(result: Result) -> float:
+    # semantic_score = 1.0 - result.distance
+
+    # bm25_score = bm25_by_text.get(result.text, 0.0)
+    # normalized_bm25 = bm25_score / max_bm25 if max_bm25 > 0 else 0.0
+
+    # return (0.7 * semantic_score) + (0.3 * normalized_bm25)
+
+    # results.sort(key=hybrid_score, reverse=True)
+
+    # return results[:top_k]
+    
+    bm25_by_text = {
+        text: float(score)
+        for text, score in zip(documents, bm25_scores)
+    }
+
+    max_bm25 = max(bm25_scores) if len(bm25_scores) > 0 else 0
+
+    def hybrid_score(result: Result) -> float:
+        semantic_score = 1.0 - result.distance
+
+        bm25_score = bm25_by_text.get(result.text, 0.0)
+        normalized_bm25 = bm25_score / max_bm25 if max_bm25 > 0 else 0.0
+
+        return (0.7 * semantic_score) + (0.3 * normalized_bm25)
+
+    results.sort(key=hybrid_score, reverse=True)
+
+    return results[:top_k]
 
 
 def index_exists(corpus: str | None = None, variant: str = "default") -> bool:

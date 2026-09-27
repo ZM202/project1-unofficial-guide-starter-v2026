@@ -312,8 +312,10 @@ The main pattern was that retrieval did not provide the expected information for
 ## The Improvement
 
 **What I changed:**
+I added hybrid search so retrieval uses both semantic similarity and keyword matching.
 
 **Why I picked it:**
+I chose hybrid search because my diagnosis showed that retrieval often found related documents but did not retrieve chunks containing the exact expected answers. Combining semantic and keyword search may improve retrieval for questions containing specific terms or numbers.
 
 <!-- Connect it to a specific diagnosis above in one sentence. If you can't,
      you picked a fix because it sounded impressive. -->
@@ -323,13 +325,13 @@ The main pattern was that retrieval did not provide the expected information for
 <!-- Same format, same five criteria, three runs each.
      `python run_eval.py --label after` -->
 
-| Criterion | Target | Run 1 | Run 2 | Run 3 | Verdict |
-|---|---|---|---|---|---|
-| 1. Retrieved chunk contains the answer | 4 of 5 |  |  |  |  |
-| 2. Every answer names a source | 5 of 5 |  |  |  |  |
-| 3. Gate stops out-of-corpus questions | 4 of 5 |  |  |  |  |
-| 4. | | | | | |
-| 5. | | | | | |
+| Criterion | Run 1 | Run 2 | Run 3 | Result |
+|---|---:|---:|---:|---|
+| 1. Retrieved chunks contain the answer | 1/5 | 1/5 | 1/5 | MISSED |
+| 2. Every answer names a source | 3/5 | 3/5 | 3/5 | MISSED |
+| 3. Gate stops out-of-corpus questions | 5/5 | 5/5 | 5/5 | MET |
+| 4. Sampled chunks contain enough information to understand the main point without another chunk | 5/5 | 5/5 | 5/5 | MET |
+| 5. Each answer is no more than 3 sentences, excluding source information | 5/5 | 5/5 | 5/5 | MET |
 
 **Did it help?**
 
@@ -339,6 +341,8 @@ The main pattern was that retrieval did not provide the expected information for
      tell.
 
      Milestone 4. -->
+
+The hybrid search changed some of the retrieved chunks, but it did not improve my overall criterion scores. Criterion 1 remained at 1 out of 5 because four of the expected answers were not present in the corpus, so changing the retrieval method could not retrieve information that was not available. The other criterion scores also remained the same. This showed me that improving retrieval alone cannot fix a mismatch between the test questions and the information available in the corpus.
 
 ## What's Still Broken
 
