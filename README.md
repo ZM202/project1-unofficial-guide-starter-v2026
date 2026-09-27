@@ -268,11 +268,11 @@ All five answers stayed within the 3-sentence limit in all three runs.
 
 | # | Criterion | Verdict | How I decided |
 |---|---|---|---|
-| 1 |  |  |  |
-| 2 |  |  |  |
-| 3 |  |  |  |
-| 4 |  |  |  |
-| 5 |  |  |  |
+|| 1 | Retrieved chunk contains the answer | MISSED | I got 1 out of 5 in all three runs, which is below my target of 4 out of 5. |
+| 2 | Every answer names a source | MISSED | I got 3 out of 5 in all three runs, which is below my target of 5 out of 5. |
+| 3 | Gate stops out-of-corpus questions | MET | The gate stopped 5 out of 5 out-of-corpus questions, which met my target of 4 out of 5. |
+| 4 | Sampled chunks contain enough information to understand the main point without another chunk | MET | All 5 out of 5 sampled chunks could be understood on their own, which met my target of 4 out of 5. |
+| 5 | Each answer is no more than 3 sentences, excluding source information | MET | All 5 out of 5 answers stayed within the 3-sentence limit in all three runs, which met my target of 5 out of 5. |
 
 ## Diagnoses
 
