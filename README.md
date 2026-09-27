@@ -267,8 +267,7 @@ All five answers stayed within the 3-sentence limit in all three runs.
      Milestone 2. -->
 
 | # | Criterion | Verdict | How I decided |
-|---|---|---|---|
-|| 1 | Retrieved chunk contains the answer | MISSED | I got 1 out of 5 in all three runs, which is below my target of 4 out of 5. |
+| 1 | Retrieved chunk contains the answer | MISSED | I got 1 out of 5 in all three runs, which is below my target of 4 out of 5. |
 | 2 | Every answer names a source | MISSED | I got 3 out of 5 in all three runs, which is below my target of 5 out of 5. |
 | 3 | Gate stops out-of-corpus questions | MET | The gate stopped 5 out of 5 out-of-corpus questions, which met my target of 4 out of 5. |
 | 4 | Sampled chunks contain enough information to understand the main point without another chunk | MET | All 5 out of 5 sampled chunks could be understood on their own, which met my target of 4 out of 5. |
@@ -293,6 +292,22 @@ All five answers stayed within the 3-sentence limit in all three runs.
      low, and which one you'd tighten and to what.
 
      Milestone 3. -->
+
+### Criterion 1 — Retrieved chunk contains the answer
+
+**Stage:** Retrieval
+
+**Diagnosis:** Only 1 of 5 questions retrieved a chunk containing the expected answer. For the other four questions, the expected answer was not present in any of the retrieved chunks. For example, the parking question expected "$75," but the retrieved parking document did not contain that amount. This shows that the failure happened during retrieval rather than generation because the model did not receive the information it needed to produce the expected answer.
+
+### Criterion 2 — Every answer names a source
+
+**Stage:** Generation
+
+**Diagnosis:** Only 3 of 5 answers named a source. The answers for the food delivery and restaurant questions said there was not enough information to answer the question but did not name any of the retrieved source documents. Since sources were retrieved but the generated responses did not cite them, this failure happened during generation.
+
+### Pattern Across the Misses
+
+The main pattern was that retrieval did not provide the expected information for several questions. When the retrieved chunks did not contain enough information, the model correctly said it could not answer, but some of those responses also failed to name a source.
 
 ## The Improvement
 
