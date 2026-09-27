@@ -172,6 +172,8 @@ Sources: `study_library_hours.txt`, `housing_calder_annexe_noise.txt`, and `hous
 
 **2.** I used AI to help review my retrieval results and choose a relevance cutoff. AI initially used a test question that was not one of my five questions, so I corrected it and used the results from my actual five in-corpus and five out-of-scope questions. Based on those results, I chose 0.70 because it fell between the two groups of distances.
 
+**3.** I used AI to help review the before-and-after evaluation results and look for patterns in the criteria I missed. AI helped me notice that four of my expected answers were not actually supported by the corpus, which explained why adding hybrid search did not improve Criterion 1. I used that finding to explain why the improvement did not change my overall criterion scores.
+
 <!-- ── Stretch features ─────────────────────────────────────────────────────
      Doing one? Say so here BEFORE you start. A feature this README never
      claims earns nothing.
@@ -354,9 +356,20 @@ The hybrid search changed some of the retrieved chunks, but it did not improve m
 
      Milestone 5. -->
 
+### What's Still Broken
+
+**Criterion 1 — Retrieved chunks contain the answer**
+
+This criterion is still missed at 1 out of 5. After testing the hybrid search, I found that four of my expected answers were not actually present in the corpus. Because the information is not in the source documents, changing the retrieval method cannot retrieve those answers. In a future iteration, I would revise my test questions and expected answers so they are supported by the corpus before evaluating retrieval. I stopped here because I wanted to keep the same questions for the before-and-after comparison rather than changing the evaluation after seeing the results.
+
+**Criterion 2 — Every answer names a source**
+
+This criterion is still missed at 3 out of 5. When the system says it does not have enough information, it does not always name a source. I would improve the generation instructions so that even when the system cannot answer a question, it still names the source documents it checked. I stopped here because my Milestone 4 change focused only on retrieval through hybrid search, and I wanted to measure one change at a time.
 ## What I'd Do Differently
 
 <!-- Knowing what you know now — which of your five criteria would you write
      differently, and why?
 
      Milestone 5. -->
+
+In the next unit, I would write Criterion 1 differently. Instead of only checking whether the retrieved chunks contain my expected answer, I would first make sure that every expected answer is actually supported by the corpus. This project showed me that a retrieval system cannot succeed when the expected information does not exist in its source documents. I would verify my test questions against the corpus before setting the criterion and target.
